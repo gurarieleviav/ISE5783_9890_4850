@@ -22,5 +22,27 @@ public class Vector extends Point{
         if (xyz.equals(Double3.ZERO))
             throw new IllegalArgumentException();
     }
+    /**
+     * Sum two vectors triads into a new triad vector by adding the two points
+     * that are constructing the vectors
+     *
+     * @param other the point of the second vector for adding it to the first vector
+     * @return new vector, result of add
+     */
+    public Vector add(Vector other) {
+        return new Vector(this.xyz.add(other.xyz));
+    }
+
+    /**
+     * Scale (multiply) point of vector by a number into a new vector where each
+     * number of the point is multiplied by the number
+     *
+     * @param scalar the number for scaling
+     * @return new vector, result of scale
+     */
+    public Vector scale(double scalar) {
+        return new Vector(this.xyz.scale(scalar));
+    }
+
 
 }
