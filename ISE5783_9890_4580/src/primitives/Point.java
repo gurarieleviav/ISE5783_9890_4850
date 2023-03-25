@@ -56,12 +56,7 @@ public class Point {
      * @param other the other Point to find distance squared from
      * @return distance between Points squared
      */
-    public double distanceSquared(Point other) {
-        double dX = xyz.d1 - other.xyz.d1;
-        double dY = xyz.d2 - other.xyz.d2;
-        double dZ = xyz.d3 - other.xyz.d3;
-        return dX * dX + dY * dY + dZ * dZ;
-    }
+
     public double distanceSquared(Point other) {
         double dX = xyz.d1 - other.xyz.d1;
         double dY = xyz.d2 - other.xyz.d2;
