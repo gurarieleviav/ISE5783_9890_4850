@@ -62,4 +62,22 @@ public class Point {
         double dZ = xyz.d3 - other.xyz.d3;
         return dX * dX + dY * dY + dZ * dZ;
     }
+    public double distanceSquared(Point other) {
+        double dX = xyz.d1 - other.xyz.d1;
+        double dY = xyz.d2 - other.xyz.d2;
+        double dZ = xyz.d3 - other.xyz.d3;
+        return dX * dX + dY * dY + dZ * dZ;
+    }
+
+    /**
+     * find the distance of two Point objects
+     *
+     * @param other the other Point to find distance from
+     * @return distance between Points
+     */
+    public double distance(Point other) {
+        return Math.sqrt(this.distanceSquared(other));
+    }
+
+
 }
