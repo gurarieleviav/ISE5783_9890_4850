@@ -23,4 +23,30 @@ public class Vector extends Point{
             throw new IllegalArgumentException();
     }
 
+    public double dotProduct(Vector other) {
+        return this.xyz.d1 * other.xyz.d1 + this.xyz.d2 * other.xyz.d2 + this.xyz.d3 * other.xyz.d3;
+    }
+
+    /**
+     * Product two vectors into a new vector, witch is a vector that is perpendicular to both vectors
+     * and thus normal to the plane containing them.
+     *
+     * @param other the second vector for cross-product
+     * @return vector, result of cross-product
+     */
+    public Vector crossProduct(Vector other) {
+        return new Vector(this.xyz.d2 * other.xyz.d3 - this.xyz.d3 * other.xyz.d2,
+                this.xyz.d3 * other.xyz.d1 - this.xyz.d1 * other.xyz.d3,
+                this.xyz.d1 * other.xyz.d2 - this.xyz.d2 * other.xyz.d1);
+    }
+
+    /**
+     * calculates the length squared of the vector.
+     *
+     * @return number, the length squared of the vector.
+     */
+    public double lengthSquared() {
+        return dotProduct(this);
+    }
+
 }
