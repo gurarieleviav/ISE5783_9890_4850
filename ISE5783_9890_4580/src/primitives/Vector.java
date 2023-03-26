@@ -71,4 +71,21 @@ public class Vector extends Point{
         return dotProduct(this);
     }
 
+    /**
+     * for normalizing vectors, in the same direction as the original vector.
+     *
+     * @return a normalized vector, in the same direction as the original vector.
+     */
+    /**
+     * calculates the length of the vector.
+     *
+     * @return number, the length of the vector.
+     */
+    public double length() {
+        return Math.sqrt(this.lengthSquared());
+    }
+    public Vector normalize() {
+        return new Vector(this.xyz.reduce(this.length()));
+    }
+
 }
