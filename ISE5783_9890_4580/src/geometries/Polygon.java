@@ -84,4 +84,8 @@ public class Polygon implements Geometry {
    public Vector getNormal() {
       return null;
    }
+   @Override
+   public Triangle getNormal() {
+      return null;
+   }
 }
