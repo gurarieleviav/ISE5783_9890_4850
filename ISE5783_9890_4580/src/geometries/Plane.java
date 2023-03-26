@@ -4,6 +4,9 @@ import primitives.Point;
 import primitives.Vector;
 
 public class Plane {
+    private final Point point;
+    private final Vector normal;
+
     /**
      * Constructor to build a Plane object from a point and an orthogonal vector
      *
