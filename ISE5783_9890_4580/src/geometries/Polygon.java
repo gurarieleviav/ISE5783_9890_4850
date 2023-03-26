@@ -1,3 +1,5 @@
+/** @author Gur Arie Leviav
+ *  @author Asaf Basali*/
 package geometries;
 
 import static primitives.Util.isZero;

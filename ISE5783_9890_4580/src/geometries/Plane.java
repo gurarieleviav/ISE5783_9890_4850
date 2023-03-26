@@ -1,3 +1,5 @@
+/** @author Gur Arie Leviav
+ *  @author Asaf Basali*/
 package geometries;
 
 import primitives.Point;
@@ -29,5 +31,12 @@ public class Plane {
     public Plane(Point p1, Point p2, Point p3) {//ax+by+cz +d = 0
         this.point = p1;
         this.normal = p1.subtract(p2).crossProduct(p1.subtract(p3)).normalize();
+    }
+
+    public Vector getNormal() {
+        return null;
+    }
+    public Vector getNoraml(Point point){
+        return null;
     }
 }
