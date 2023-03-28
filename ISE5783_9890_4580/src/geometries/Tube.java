@@ -9,6 +9,11 @@ import primitives.Vector;
 public class Tube extends RadialGeometry{
     protected Ray ray ;
 
+    public Tube(Ray ray)
+    {
+        this.ray = ray;
+    }
+
     @Override
     public Vector getNormal(Point point) {
         return null;
