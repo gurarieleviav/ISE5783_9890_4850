@@ -68,7 +68,7 @@ public class PolygonTests {
    /** Test method for {@link Polygon#getNormal(Point)}. */
    @Test
    public void testGetNormal() {
-      /* // ============ Equivalence Partitions Tests ==============
+      // ============ Equivalence Partitions Tests ==============
       // TC01: There is a simple single test here - using a quad
       Point[] pts =
          { new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 1, 0), new Point(-1, 1, 1) };
@@ -82,6 +82,6 @@ public class PolygonTests {
       // ensure the result is orthogonal to all the edges
       for (int i = 0; i < 3; ++i)
          assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1]))),
-                    "Polygon's normal is not orthogonal to one of the edges"); */
+                    "Polygon's normal is not orthogonal to one of the edges");
    }
 }
