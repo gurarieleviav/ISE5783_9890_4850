@@ -41,8 +41,8 @@ class PlaneTest {
         // EP01: There is a simple single test here
         Point p = new Point(1, 1, 1);
         Plane plane = new Plane(p, new Point(1, 2, 1), new Point(1, 1, 2));
-        assertTrue(plane.getNormal().equals(new Vector(1, 0, 0))
-                        || plane.getNormal().equals(new Vector(-1, 0, 0)),
+        assertTrue(plane.getNormal(p).equals(new Vector(1, 0, 0))
+                        || plane.getNormal(p).equals(new Vector(-1, 0, 0)),
                 "ERROR: getnormal method in Plane does not work properly");
     }
 

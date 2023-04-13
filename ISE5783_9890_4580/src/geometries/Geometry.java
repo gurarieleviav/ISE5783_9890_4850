@@ -13,7 +13,6 @@ public interface Geometry {
      * @param point on the geometry
      * @return the normal of the geometry
      */
-    abstract public Vector getNormal(Point point);
+     public Vector getNormal(Point point);
 
-    Vector getNormal();
 }

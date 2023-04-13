@@ -5,7 +5,7 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
-public class Plane {
+public class Plane implements Geometry {
     private final Point point;
     private final Vector normal;
 
@@ -32,11 +32,13 @@ public class Plane {
         this.point = p1;
         this.normal = p1.subtract(p2).crossProduct(p1.subtract(p3)).normalize();
     }
-    public Vector getNoraml(){
-        return null;
-    }
-    public Vector getNormal() {
-        return null;
+
+    @Override
+    public Vector getNormal(Point point) {
+        return this.normal;
     }
 
+
+    public Vector getNormal() {return this.normal;
+    }
 }
