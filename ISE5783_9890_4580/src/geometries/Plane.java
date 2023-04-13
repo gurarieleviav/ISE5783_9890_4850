@@ -33,10 +33,14 @@ public class Plane {
         this.normal = p1.subtract(p2).crossProduct(p1.subtract(p3)).normalize();
     }
 
+
     public Vector getNormal() {
         return null;
     }
-    public Vector getNoraml(Point point){
+
+
+    public Vector getNormal(Point point) {
         return null;
     }
+
 }
