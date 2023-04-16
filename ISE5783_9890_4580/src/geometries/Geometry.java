@@ -5,7 +5,7 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
-public interface Geometry {
+public interface Geometry extends Intersectable {
     /**
      * finds the normal of the geometry at the given point
      * on the surface of the geometry

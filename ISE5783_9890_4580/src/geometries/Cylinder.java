@@ -6,6 +6,8 @@ import primitives.Point;
 import primitives.Vector;
 import primitives.Ray;
 
+import java.util.List;
+
 public class Cylinder extends Tube{
    private final double height;
 
@@ -17,4 +19,9 @@ public class Cylinder extends Tube{
 
     @Override
     public Vector getNormal(Point point) {return null;}
+    @Override
+    public List<Point> findIntsersections(Ray ray)
+    {
+        return null;
+    }
 }
