@@ -33,4 +33,22 @@ public class Ray {
         this.start = head.add(normal.scale(normal.dotProduct(direction) > 0 ? this.DELTA : -this.DELTA));
         this.direction = direction.normalize();
     }
+    /**
+     * Getter for the ray's starting Point
+     *
+     * @return the start Point
+     */
+    public Point getStart() {
+        return this.start;
+    }
+
+    /**
+     * Getter for the ray's direction Vector
+     *
+     * @return the direction vector
+     */
+    public Vector getDirection() {
+        return this.direction;
+    }
+
 }

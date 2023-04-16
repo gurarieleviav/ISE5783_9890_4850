@@ -8,13 +8,15 @@ import primitives.Vector;
 public class Sphere extends RadialGeometry{
     protected Point point;
 
-    @Override
-    public Vector getNormal(Point point) {
-        return null;
+    public Sphere(Point point, int i) {
+        this.point = point;
+        this.radius = i;
     }
 
+
     @Override
-    public Vector getNormal() {
-        return null;
+    public Vector getNormal(Point p) {
+        return p.subtract(point).normalize();
     }
+
 }

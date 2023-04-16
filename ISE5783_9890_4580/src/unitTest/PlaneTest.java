@@ -1,11 +1,9 @@
 package unitTest;
+
 import geometries.Plane;
 import org.junit.jupiter.api.Test;
 import primitives.Point;
-import primitives.Ray;
 import primitives.Vector;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Gur Arie Leviav
  * @author Asaf Basali
- *
  */
 class PlaneTest {
 
@@ -36,7 +33,7 @@ class PlaneTest {
     }
 
     /**
-     * Test method for {@link geometries.Plane#getNormal(primitives.Point)}
+     * Test method for {@link Plane#getNormal()}
      */
     @Test
     void testGetNormal() {
@@ -48,5 +45,7 @@ class PlaneTest {
                         || plane.getNormal(p).equals(new Vector(-1, 0, 0)),
                 "ERROR: getnormal method in Plane does not work properly");
     }
+
+
 
 }
