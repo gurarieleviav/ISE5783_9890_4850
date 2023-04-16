@@ -21,12 +21,7 @@ public class Sphere extends RadialGeometry{
     public Vector getNormal(Point p) {
         return p.subtract(point).normalize();
     }
-
-    @Override
-    public List<Point> findIntsersections(Ray ray)
-    {
-        return null;
-    }
+    
 
     public List<Point> findIntersections(Ray ray) {
         return null;

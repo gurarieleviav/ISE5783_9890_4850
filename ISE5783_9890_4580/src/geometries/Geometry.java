@@ -5,6 +5,12 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
+/**
+ * Geometry interface represents three-dimensional objects system
+ *
+ * @author Gur arie Leviav
+ * @author Asaf Basali
+ */
 public interface Geometry extends Intersectable {
     /**
      * finds the normal of the geometry at the given point
@@ -13,6 +19,6 @@ public interface Geometry extends Intersectable {
      * @param point on the geometry
      * @return the normal of the geometry
      */
-     public Vector getNormal(Point point);
+    Vector getNormal(Point point);
 
 }

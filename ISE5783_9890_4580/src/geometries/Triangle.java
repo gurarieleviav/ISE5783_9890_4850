@@ -17,7 +17,7 @@ public class Triangle extends Polygon {
         super(vertices);
     }
 
-    @Override
+
     public List<Point> findIntsersections(Ray ray)
     {
         return null;

@@ -51,4 +51,8 @@ public class Ray {
         return this.direction;
     }
 
+    public double getX(){
+        return start.getX();
+    }
+
 }

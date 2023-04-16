@@ -2,8 +2,10 @@
  *  @author Asaf Basali*/
 package geometries;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import primitives.Point;
@@ -83,13 +85,44 @@ public class Polygon implements Geometry {
    @Override
    public Vector getNormal(Point point) { return plane.getNormal(); }
 
-   @Override
-   public List<Point> findIntsersections(Ray ray)
-   {
-      return null;
-   }
 
+
+
+   /**
+    * Finds all intersection points
+    *
+    * @param ray the ray
+    * @return all intersection points with the ray
+    */
+   @Override
    public List<Point> findIntersections(Ray ray) {
-      return null;
+      List<Point> intersectionList = plane.findIntersections(ray);
+
+      if (intersectionList == null)
+         return null;
+
+      //here we decide whether the point is on the polygon or not
+      List<Vector> vectors = new ArrayList<>(vertices.size());
+
+      Point rayStart = ray.getStart();
+      for (Point vertice : vertices) {
+         vectors.add(vertice.subtract(rayStart));
+      }
+
+      List<Vector> normals = new ArrayList<>(vertices.size());
+      for (int i = 0; i < vertices.size(); ++i) {
+         normals.add(vectors.get(i).crossProduct(vectors.get((i + 1) % vertices.size())).normalize());
+      }
+
+      Vector v = ray.getDirection();
+
+      double initialSign = alignZero(v.dotProduct(normals.get(0)));
+      if (initialSign == 0) return null;
+
+      for (Vector normal : normals) {
+         double sign = alignZero(v.dotProduct(normal));
+         if (sign * initialSign <= 0) return null;
+      }
+      return intersectionList;
    }
 }

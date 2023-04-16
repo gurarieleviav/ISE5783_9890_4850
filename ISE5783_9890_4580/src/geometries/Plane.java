@@ -6,7 +6,12 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+
+import java.util.LinkedList;
 import java.util.List;
+
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 public class Plane implements Geometry {
     private final Point point;
@@ -20,7 +25,7 @@ public class Plane implements Geometry {
      */
     public Plane(Point point, Vector vector) {
         this.point = point;
-        this.normal = null;
+        this.normal = vector;
     }
 
     /**
@@ -35,6 +40,14 @@ public class Plane implements Geometry {
         this.point = p1;
         this.normal = p1.subtract(p2).crossProduct(p1.subtract(p3)).normalize();
     }
+    /**
+     * Gets a point on the plane
+     *
+     * @return a point
+     */
+    public Point getP0() {
+        return point;
+    }
 
     @Override
     public Vector getNormal(Point point) {
@@ -45,12 +58,28 @@ public class Plane implements Geometry {
     public Vector getNormal() {return this.normal;
     }
 
+
     @Override
-    public List<Point> findIntsersections(Ray ray) {
-        return null;
+    public List<Point> findIntersections(Ray ray) {
+        Vector rayDir = ray.getDirection();
+        Point rayP0 = ray.getStart();
+        // if they are parallel
+        if (isZero(rayDir.dotProduct(normal)))
+            return null;
+
+        //t = n * (Q - Po) / n * v: t>0
+        try {
+            double t = alignZero(normal.dotProduct(point.subtract(rayP0)) / normal.dotProduct(rayDir));
+            if (t <= 0)
+                return null;
+            //p = P0 + t*v
+            Point point = rayP0.add(rayDir.scale(t));
+            List<Point> pointList = new LinkedList<>();
+            pointList.add(point);
+            return pointList;
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
-    public List<Point> findIntersections(Ray ray) {
-        return null;
-    }
 }
