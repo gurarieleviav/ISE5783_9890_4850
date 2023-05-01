@@ -1,15 +1,17 @@
-/** @author Gur Arie Leviav
- *  @author Asaf Basali*/
 package primitives;
 
+
+import java.util.List;
+
+import static primitives.Util.isZero;
+
+/**@author Gur Arie Leviav
+ * @author Asaf Basali
+ */
 public class Ray {
     private final Vector direction;
     private final Point start;
 
-    /**
-     * Constant to move the point by a small distance
-     */
-    private static final double DELTA = 0.1;
 
     /**
      * Constructor to create a Ray from a Point to direction of dir
@@ -30,16 +32,15 @@ public class Ray {
      * @param normal    The normal to the geometry, on this vector's line the point will move
      */
     public Ray(Point head, Vector direction, Vector normal) {
-        this.start = head.add(normal.scale(normal.dotProduct(direction) > 0 ? this.DELTA : -this.DELTA));
+        this.start = head;
         this.direction = direction.normalize();
     }
-    /**
-     * Getter for the ray's starting Point
-     *
-     * @return the start Point
-     */
-    public Point getStart() {
-        return this.start;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Ray other)) return false;
+        return this.direction.equals(other.direction) && this.start.equals(other.start);
     }
 
     /**
@@ -51,8 +52,30 @@ public class Ray {
         return this.direction;
     }
 
-    public double getX(){
-        return start.getX();
+    /**
+     * Getter for the ray's starting Point
+     *
+     * @return the start Point
+     */
+    public Point getStart() {
+        return this.start;
     }
 
+    /**
+     * Calculates a point on the line of the ray at a given distance from the starting point
+     *
+     * @param t the distance from the starting point
+     * @return the point on the line of the ray
+     */
+    public Point getPoint(double t) {
+        return isZero(t) ? this.start : this.start.add(this.direction.scale(t));
+    }
+
+    @Override
+    public String toString() {
+        return "Ray{" +
+                "direction=" + direction +
+                ", start=" + start +
+                '}';
+    }
 }

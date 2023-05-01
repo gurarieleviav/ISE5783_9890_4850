@@ -23,7 +23,7 @@ public class Point {
      *
      * @param xyz the Double3 object
      */
-    protected Point(Double3 xyz) {
+    public Point(Double3 xyz) {
         this.xyz = new Double3(xyz.d1, xyz.d2, xyz.d3);//maybe assign this.xyz = xyz
     }
 
