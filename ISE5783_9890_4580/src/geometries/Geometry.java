@@ -3,7 +3,10 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
 
 /**
  * Geometry interface represents three-dimensional objects system
@@ -21,4 +24,14 @@ public interface Geometry extends Intersectable {
      */
     Vector getNormal(Point point);
 
+    /**
+     * Finds all intersection points
+     *
+     * @param ray the ray
+     * @return all intersection points with the ray
+     */
+    @Override
+    default List<Point> findIntersections(Ray ray) {
+        return null;
+    }
 }

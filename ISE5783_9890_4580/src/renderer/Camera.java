@@ -18,6 +18,13 @@ public class Camera {
     private int vpWidth;
     private double distanceFromVp;
 
+    public Camera(Point position, Vector vTo, Vector vUp, Vector vRight) {
+        this.position = position;
+        this.vTo = vTo;
+        this.vUp = vUp;
+        this.vRight = vRight;
+    }
+
     /**
      * Getter for the camera position
      * @return the position

@@ -9,6 +9,7 @@ import primitives.Vector;
 import java.util.List;
 
 import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 public class Triangle extends Polygon {
     /**
@@ -22,33 +23,25 @@ public class Triangle extends Polygon {
 
 
 
-    public List<Point> findIntersections(Ray ray, double maxDistance) {
-// First check the intersections with the plane
-        Point point0 = vertices.get(0);
-        Point point1 = vertices.get(1);
-        Point point2 = vertices.get(2);
-
-        Vector normal = (point0.subtract(point1).crossProduct(point1.subtract(point2))).normalize();
-        Plane plane = new Plane(point0, normal);
-        List<Point> pointList = plane.findIntersections(ray);
-        if (pointList == null)
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        List<Point> intersection = this.plane.findIntersections(ray);
+        if (intersection == null)
             return null;
-
-        Point rayP0 = ray.getStart();
-        Vector rayDir = ray.getDirection();
-        // After check if they're in the triangle
-        Vector v1 = (rayP0.subtract(point0));
-        Vector v2 = (rayP0.subtract(point1));
-        double vn1 = alignZero(rayDir.dotProduct((v1.crossProduct(v2)).normalize()));
-        if (vn1 == 0) return null;
-
-        Vector v3 = (rayP0.subtract(point2));
-        double vn2 = alignZero(rayDir.dotProduct((v2.crossProduct(v3)).normalize()));
-        if (vn1 * vn2 <= 0) return null;
-
-        double vn3 = alignZero(rayDir.dotProduct((v3.crossProduct(v1)).normalize()));
-        if (vn1 * vn3 <= 0) return null;
-
-        return List.of(pointList.get(0));
+        Vector v1 = vertices.get(0).subtract(ray.getStart());
+        Vector v2 = vertices.get(1).subtract(ray.getStart());
+        Vector v3 = vertices.get(2).subtract(ray.getStart());
+        Vector n1 = v1.crossProduct(v2).normalize();
+        Vector n2 = v2.crossProduct(v3).normalize();
+        Vector n3 = v3.crossProduct(v1).normalize();
+        Vector v = ray.getDirection();
+        double vn1 = alignZero(v.dotProduct(n1));
+        double vn2 = alignZero(v.dotProduct(n2));
+        double vn3 = alignZero(v.dotProduct(n3));
+        if (isZero(vn1) || isZero(vn2) || isZero(vn3))
+            return null;
+        if ((vn1 > 0 && vn2 > 0 && vn3 > 0) || ((vn1 < 0 && vn2 < 0 && vn3 < 0)))
+            return intersection;
+        return null;
     }
 }
