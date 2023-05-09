@@ -96,9 +96,9 @@ public class Polygon implements Geometry {
     */
    @Override
    public List<Point> findIntersections(Ray ray) {
-      List<Point> intersectionList = plane.findIntersections(ray);
+      List<Point> intersections = plane.findIntersections(ray);
 
-      if (intersectionList == null)
+      if (intersections == null)
          return null;
 
       //here we decide whether the point is on the polygon or not
@@ -123,6 +123,6 @@ public class Polygon implements Geometry {
          double sign = alignZero(v.dotProduct(normal));
          if (sign * initialSign <= 0) return null;
       }
-      return intersectionList;
+      return intersections;
    }
 }

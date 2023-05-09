@@ -27,7 +27,7 @@ public class IntegrationTest {
     static final Point ZERO_POINT = new Point(0, 0, 0);
     Camera camera = new Camera(ZERO_POINT, new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPSize(VPheight, VPwidth).setVPDistance(1);
 
-    private void countIntersections(Geometry geometry, Camera camera, int expected, String message) {
+    private void assertCountIntersections(int expected, Camera camera, Geometry geometry, String message) {
         if (camera == null) camera = this.camera;
         int countIntersections = 0;
         List<Point> temp;
@@ -48,28 +48,28 @@ public class IntegrationTest {
      * Test method for Camera constructed ray intersections with sphere
      */
     @Test
-    void SphereIntersections() {
+    void testSphereIntersections() {
         //TC01: Small Sphere in front of the VP
         Sphere sphere1 = new Sphere(new Point(0, 0, -3), 1);
-        countIntersections(sphere1, camera, 2, "TC01");
+        assertCountIntersections(2, camera, sphere1, "TC01");
 
 
         //TC02: Big Sphere and the VP is almost completely inside
         Camera camera2 = new Camera(new Point(0, 0, 0.5), new Vector(0, 0, -1), new Vector(0, 1, 0)).setVPSize(VPheight, VPwidth).setVPDistance(1);
         Sphere sphere2 = new Sphere(new Point(0, 0, -2.5), 2.5);
-        countIntersections(sphere2, camera2, 18, "TC02");
+        assertCountIntersections(18, camera2, sphere2, "TC02");
 
         //TC03: Small Sphere intersects with the VP
         Sphere sphere3 = new Sphere(new Point(0, 0, -2), 2);
-        countIntersections(sphere3, camera2, 10, "TC03");
+        assertCountIntersections(10, camera2, sphere3, "TC03");
 
         //TC04: VP inside the big sphere
         Sphere sphere4 = new Sphere(new Point(1, 1, -2), 4);
-        countIntersections(sphere4, camera, 9, "TC04");
+        assertCountIntersections(9, camera, sphere4, "TC04");
 
         //TC05: Small Sphere in behind camera
         Sphere sphere5 = new Sphere(new Point(0, 0, 1), 0.5);
-        countIntersections(sphere5, camera, 0, "TC05");
+        assertCountIntersections(0, camera, sphere5, "TC05");
     }
 
     /**
@@ -79,16 +79,16 @@ public class IntegrationTest {
     void PlaneIntersections() {
         //TC01: Plane parallel to the VP
         Plane plane1 = new Plane(new Point(0, 5, -3), new Vector(0, 0, 1));
-        countIntersections(plane1, camera, 9, "TC01");
+        assertCountIntersections(9, camera, plane1, "TC01");
 
 
         //TC02: plane not parallel and there are 9 intersections
         Plane plane2 = new Plane(new Point(0, 2, -1), new Vector(0, 0.5, -1));
-        countIntersections(plane2, camera,9,  "TC02");
+        assertCountIntersections(9, camera, plane2, "TC02");
 
         //TC03: plane not parallel and there are 6 intersections
         Plane plane3 = new Plane(new Point(0, 2, -1), new Vector(0, 5, -1));
-        countIntersections(plane3, camera,6 , "TC03");
+        assertCountIntersections(6, camera, plane3, "TC03");
     }
 
     /**
@@ -98,11 +98,11 @@ public class IntegrationTest {
     void TriangleIntersections() {
         //TC01: Triangle is small - only 1 intersection
         Triangle triangle1 = new Triangle(new Point(0, 1, -2), new Point(1, -1, -2), new Point(-1, -1, -2));
-        countIntersections(triangle1, camera, 1, "TC01");
+        assertCountIntersections(1, camera, triangle1, "TC01");
 
 
         //TC01: Triangle is small but long - 2 intersections
         Triangle triangle2 = new Triangle(new Point(0, 20, -2), new Point(1, -1, -2), new Point(-1, -1, -2));
-        countIntersections(triangle2, camera, 2, "TC02");
+        assertCountIntersections(2, camera, triangle2, "TC02");
     }
 }

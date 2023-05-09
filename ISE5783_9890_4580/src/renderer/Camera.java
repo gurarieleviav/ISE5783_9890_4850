@@ -126,8 +126,8 @@ public class Camera {
                     Point pIJ = this.position.add(this.vTo.scale(this.distanceFromVp));
                     double xJ = (j - ((nX - 1) / 2d)) * ((double)this.vpWidth / nX);
                     double yI = (((nY - 1) / 2d) - i) * ((double)this.vpWidth / nY);
-                    if (xJ != 0) pIJ = pIJ.add(vRight.scale(xJ));
-                    if (yI != 0) pIJ = pIJ.add(vUp.scale(yI));
+                    if (!Util.isZero(xJ)) pIJ = pIJ.add(vRight.scale(xJ)); //using util
+                    if (!Util.isZero(yI)) pIJ = pIJ.add(vUp.scale(yI));
                     return new Ray(this.position, pIJ.subtract(this.position));
                 }
 

@@ -57,4 +57,16 @@ class CameraTest {
 
 }
 
+	@Test
+	void testClosetToZero(){
+		Camera camera =  new Camera(ZERO_POINT, new Vector(0, 0, -1), new Vector(0, -1, 0))
+				.setVPDistance(10)
+				.setVPSize(3,3);
+		camera.constructRay(10000,10000, 5000,5000);
+
+	}
+
+
+
+
 }

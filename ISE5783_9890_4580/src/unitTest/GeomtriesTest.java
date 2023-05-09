@@ -23,7 +23,8 @@ class GeometriesTests {
      */
     @Test
     void TestFindIntersections() {
-        Geometries geometries = new Geometries(new Plane(new Point(1, 1, 1), new Vector(1, 1, 1)),
+        Geometries geometries = new Geometries(
+                new Plane(new Point(1, 1, 1), new Vector(1, 1, 1)),
                 new Triangle(new Point(2, 0, 0), new Point(0, 2, 0), new Point(2, 2, 0)),
                 new Sphere(new Point(2, 2, 1), 4));
         Ray ray = new Ray(new Point(1.5, 1, 6), new Vector(0, 0, -1));
