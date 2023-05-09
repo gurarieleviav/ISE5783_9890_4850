@@ -64,7 +64,7 @@ public class IntegrationTest {
         countIntersections(sphere3, camera2, 10, "TC03");
 
         //TC04: VP inside the big sphere
-        Sphere sphere4 = new Sphere(new Point(1, 1, -1), 4);
+        Sphere sphere4 = new Sphere(new Point(1, 1, -2), 4);
         countIntersections(sphere4, camera, 9, "TC04");
 
         //TC05: Small Sphere in behind camera
