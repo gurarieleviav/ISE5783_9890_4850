@@ -71,6 +71,30 @@ public class Ray {
         return isZero(t) ? this.start : this.start.add(this.direction.scale(t));
     }
 
+    /**
+     * finds the closest point to the start of the ray
+     * @param points the points
+     * @return the closest point
+     */
+    public Point findClosestPoint(List<Point> points) {
+        try {
+            int index = -1;
+            double distance = 999999999999d;
+            for (Point point :
+                    points) {
+                if(point.subtract(this.start).dotProduct(this.direction) > 0){
+                    double d = this.start.distance(point);
+                    if (d < distance) {
+                        distance = d;
+                        index = points.indexOf(point);
+                    }
+                }
+            }
+            return points.get(index);
+        } catch (Exception ignore) {
+            return null;
+        }
+    }
     @Override
     public String toString() {
         return "Ray{" +
