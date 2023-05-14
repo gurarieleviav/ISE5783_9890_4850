@@ -17,6 +17,10 @@ public class AmbientLight {
     public AmbientLight(Color iA, Double3 kA) {
         this.intensity = new Color(iA.scale(kA).getColor());
     }
+
+    public Color getIntensity() {
+        return intensity;
+    }
 /**
  * Default constructor for AmbientLight
  * sets the background color as black
