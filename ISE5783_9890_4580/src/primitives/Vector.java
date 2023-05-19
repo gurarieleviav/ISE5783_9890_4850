@@ -1,14 +1,18 @@
-/** @author Gur Arie Leviav
- *  @author Asaf Basali*/
 package primitives;
 
-public class Vector extends Point{
+/**
+ * This class is the base for all classes using vectors.
+ *
+ * @author Gur Arie Leviav
+ * @author Asaf Basali
+ */
+public class Vector extends Point {
     /**
      * Constructor for initializing a vector from 3 double numbers (x,y,z)
      *
      * @param x first number value for x coordinate
      * @param y second number value for y coordinate
-     * @param z third number value for z coordinate
+     * @param z first number value for z coordinate
      */
     public Vector(double x, double y, double z) {
         this(new Double3(x, y, z));
@@ -24,6 +28,7 @@ public class Vector extends Point{
         if (xyz.equals(Double3.ZERO))
             throw new IllegalArgumentException();
     }
+
     /**
      * Sum two vectors triads into a new triad vector by adding the two points
      * that are constructing the vectors
@@ -46,7 +51,13 @@ public class Vector extends Point{
         return new Vector(this.xyz.scale(scalar));
     }
 
-
+    /**
+     * Product two vectors into a scalar where each couple of
+     * numbers are multiplied, and then added together.
+     *
+     * @param other the second vector for dot-product
+     * @return scalar, result of dot-product
+     */
     public double dotProduct(Vector other) {
         return this.xyz.d1 * other.xyz.d1 + this.xyz.d2 * other.xyz.d2 + this.xyz.d3 * other.xyz.d3;
     }
@@ -60,7 +71,7 @@ public class Vector extends Point{
      */
     public Vector crossProduct(Vector other) {
         return new Vector(this.xyz.d2 * other.xyz.d3 - this.xyz.d3 * other.xyz.d2,
-                this.xyz.d3 * other.xyz.d1 - this.xyz.d1 * other.xyz.d3,
+                this.xyz.d3 * other.xyz.d1 -this.xyz.d1 * other.xyz.d3,
                 this.xyz.d1 * other.xyz.d2 - this.xyz.d2 * other.xyz.d1);
     }
 
@@ -74,11 +85,6 @@ public class Vector extends Point{
     }
 
     /**
-     * for normalizing vectors, in the same direction as the original vector.
-     *
-     * @return a normalized vector, in the same direction as the original vector.
-     */
-    /**
      * calculates the length of the vector.
      *
      * @return number, the length of the vector.
@@ -86,8 +92,30 @@ public class Vector extends Point{
     public double length() {
         return Math.sqrt(this.lengthSquared());
     }
+
+    /**
+     * for normalizing vectors, in the same direction as the original vector.
+     *
+     * @return a normalized vector, in the same direction as the original vector.
+     */
     public Vector normalize() {
         return new Vector(this.xyz.reduce(this.length()));
+    }
+
+    @Override
+    public String toString() {
+        return "Vector " + this.xyz;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof Vector))
+            return false;
+        return super.equals(obj);
     }
 
 }

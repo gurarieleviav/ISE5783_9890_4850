@@ -1,37 +1,58 @@
-/** @author Gur Arie Leviav
- *  @author Asaf Basali*/
 package geometries;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
 import java.util.List;
 
 import static primitives.Util.isZero;
 
-public class Tube extends RadialGeometry{
-    protected Ray ray ;
+/**
+ * Tube class represents a three-dimensional tube in 3D Cartesian coordinate
+ * system
+ */
+public class Tube extends Geometry {
+    private final Ray axis;
+    private final double radius;
 
-    public Tube(Ray ray) {
-        this.ray = ray;
+    /**
+     * Getter for the axis ray of the Tube
+     *
+     * @return the axis ray
+     */
+    public Ray getDirection() {
+        return this.axis;
+    }
+
+    /**
+     * Getter for the radius of the Tube
+     *
+     * @return the radius
+     */
+    public double getRadius() {
+        return this.radius;
+    }
+
+
+    /**
+     * Constructor for a Tube for a ray axis and a radius
+     *
+     * @param ray    the ray axis
+     * @param radius the radius
+     */
+    public Tube(Ray ray, double radius) {
+        this.axis = ray;
         this.radius = radius;
     }
 
     @Override
     public Vector getNormal(Point point) {
-        Vector dir = this.ray.getDirection();
-        Point p0 = this.ray.getStart();
+        Vector dir = this.axis.getDirection();
+        Point p0 = this.axis.getStart();
         double t = dir.dotProduct(point.subtract(p0));
         Point o = isZero(t) ? p0 : p0.add(dir.scale(t));
         return point.subtract(o).normalize();
     }
 
-
-    public List<Point> findIntersections(Ray ray)
-    {
-        return null;
-    }
-
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray){return null;}
 
 }

@@ -3,7 +3,6 @@ package unitTest;
 import org.junit.jupiter.api.Test;
 import primitives.*;
 import renderer.*;
-import static java.awt.Color.*;
 
 /**
  * Testing Camera Class
@@ -14,14 +13,18 @@ class ImageWriterTest {
      */
     @Test
     void BasicImageTest() {
-        int nX = 800;
-        int nY = 500;
-        ImageWriter imageWriter = new ImageWriter("basicGrid", nX, nY);
-        Color red = new Color(RED);
-        Color yellow = new Color(YELLOW);
-        for (int i = 0; i < nY; i++)
-            for (int j = 0; j < nX; j++)
-                imageWriter.writePixel(j, i, i % 50 == 0 || j % 50 == 0 ? red : yellow);
+        ImageWriter imageWriter = new ImageWriter("basicGrid", 800, 500);
+        Color red = new Color(255, 0, 0);
+        Color yellow = new Color(255, 255, 0);
+        for (int i = 0; i < imageWriter.getNy(); i++) {
+            for (int j = 0; j < imageWriter.getNx(); j++) {
+                if (i % 50 == 0 || j % 50 == 0) {
+                    imageWriter.writePixel(j, i, red);
+                } else {
+                    imageWriter.writePixel(j, i, yellow);
+                }
+            }
+        }
         imageWriter.writeToImage();
     }
 }

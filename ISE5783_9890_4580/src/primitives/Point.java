@@ -1,12 +1,9 @@
-/** @author Gur Arie Leviav
- *  @author Asaf Basali*/
 package primitives;
 
 public class Point {
     final protected Double3 xyz;
 
     public static final Point ZERO = new Point(0, 0, 0);
-
     /**
      * Constructor to initialize Point based object with its three number values
      *
@@ -23,13 +20,14 @@ public class Point {
      *
      * @param xyz the Double3 object
      */
-    public Point(Double3 xyz) {
+    protected Point(Double3 xyz) {
         this.xyz = new Double3(xyz.d1, xyz.d2, xyz.d3);//maybe assign this.xyz = xyz
     }
 
     public double getX() {
         return xyz.d1;
     }
+
     /**
      * Subtract two Point object into a new Point where each couple of
      * numbers is subtracted
@@ -58,7 +56,6 @@ public class Point {
      * @param other the other Point to find distance squared from
      * @return distance between Points squared
      */
-
     public double distanceSquared(Point other) {
         double dX = xyz.d1 - other.xyz.d1;
         double dY = xyz.d2 - other.xyz.d2;
@@ -80,7 +77,13 @@ public class Point {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;
-        if (!(obj instanceof Point other)) return false;
+        if (!(obj instanceof Point)) return false;
+        Point other = (Point) obj;
         return this.xyz.equals(other.xyz);
+    }
+
+    @Override
+    public String toString() {
+        return "Point " + xyz;
     }
 }

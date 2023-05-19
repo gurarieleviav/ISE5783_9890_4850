@@ -1,19 +1,18 @@
-/** @author Gur Arie Leviav
- *  @author Asaf Basali*/
 package geometries;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
-
+import primitives.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static primitives.Util.alignZero;
-import static primitives.Util.isZero;
+import static primitives.Util.*;
 
-public class Plane implements Geometry {
+/**
+ * Plane class represents A two-dimensional and infinite Plane in 3D Cartesian coordinate
+ * system
+ */
+public class Plane extends Geometry {
+
     private final Point point;
     private final Vector normal;
 
@@ -25,7 +24,7 @@ public class Plane implements Geometry {
      */
     public Plane(Point point, Vector vector) {
         this.point = point;
-        this.normal = vector;
+        this.normal = vector.normalize();
     }
 
     /**
@@ -36,50 +35,57 @@ public class Plane implements Geometry {
      * @param p3 Point on the Plane
      * @throws IllegalArgumentException when the points are on the same line
      */
-    public Plane(Point p1, Point p2, Point p3) {//ax+by+cz +d = 0
+    public Plane(Point p1, Point p2, Point p3) {
         this.point = p1;
-        this.normal = p1.subtract(p2).crossProduct(p1.subtract(p3)).normalize();
-    }
-    /**
-     * Gets a point on the plane
-     *
-     * @return a point
-     */
-    public Point getP0() {
-        return point;
+        Vector v1 = p1.subtract(p2).normalize();
+        Vector v2 = p1.subtract(p3).normalize();
+        this.normal = v1.crossProduct(v2).normalize();
     }
 
-    @Override
+    /**
+     * @return Point on the Plane
+     */
+    public Point getPoint() {
+        return point;
+    } // add records
+
+    /**
+     * @return the normal Vector to the Plane
+     */
+    public Vector getNormal() {
+        return normal;
+    }
+
+
     public Vector getNormal(Point point) {
         return this.normal;
     }
 
-
-    public Vector getNormal() {return this.normal;
+    @Override
+    public String toString() {
+        return "Plane{" +
+                "point=" + point +
+                ", normal=" + normal +
+                '}';
     }
 
-
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        Vector rayDir = ray.getDirection();
-        Point rayP0 = ray.getStart();
-        // if they are parallel
-        if (isZero(rayDir.dotProduct(normal)))
+
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+
+        double denominator = this.normal.dotProduct(ray.getDirection());
+        if (isZero(denominator))
             return null;
 
-        //t = n * (Q - Po) / n * v: t>0
+        Vector u;
         try {
-            double t = alignZero(normal.dotProduct(point.subtract(rayP0)) / normal.dotProduct(rayDir));
-            if (t <= 0)
-                return null;
-            //p = P0 + t*v
-            Point point = rayP0.add(rayDir.scale(t));
-            List<Point> pointList = new LinkedList<>();
-            pointList.add(point);
-            return pointList;
-        } catch (IllegalArgumentException e) {
+            u = this.point.subtract(ray.getStart());
+        } catch (IllegalArgumentException ignore) {
             return null;
         }
+
+        double t = alignZero(this.normal.dotProduct(u) / denominator);
+        return t <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
     }
 
 }

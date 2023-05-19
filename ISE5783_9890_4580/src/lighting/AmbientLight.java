@@ -5,8 +5,7 @@ import primitives.*;
 /**
  * AmbientLight class represents ambient light in the image
  */
-public class AmbientLight {
-    Color intensity;
+public class AmbientLight extends Light {
 
     /**
      * Constructor for AmbientLight
@@ -15,14 +14,23 @@ public class AmbientLight {
      * @param kA factor of how much the light reduces as distance grows
      */
     public AmbientLight(Color iA, Double3 kA) {
-        this.intensity = new Color(iA.scale(kA).getColor());
+        super(iA.scale(kA));
     }
 
-    public Color getIntensity() {
-        return intensity;
+    /**
+     * Default constructor for AmbientLight
+     * sets the background color as black
+     */
+    public AmbientLight() {
+         super(Color.BLACK);
     }
-/**
- * Default constructor for AmbientLight
- * sets the background color as black
- */
+
+    /**
+     * Getter for the color intensity
+     *
+     * @return the color intensity
+     */
+    public Color getIntensity() {
+        return this.intensity;
+    }
 }

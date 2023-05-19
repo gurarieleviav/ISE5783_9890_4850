@@ -1,5 +1,3 @@
-/** @author Gur Arie Leviav
- *  @author Asaf Basali*/
 package primitives;
 
 /**

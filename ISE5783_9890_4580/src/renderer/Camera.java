@@ -3,24 +3,18 @@ package renderer;
 import java.util.MissingResourceException;
 
 import primitives.*;
-/**
- * Camera class represents a 3D camera Which will be the "eye" to render the photo.
- */
 
 /**
- * @author Gur Arie Leviav
- * @author Asaf Basali
+ * Camera class represents a 3D camera Which will be the "eye" to render the photo.
  */
 public class Camera {
     private Point position;
     private Vector vTo;
     private Vector vUp;
     private Vector vRight;
-
     private int vpHeight;
     private int vpWidth;
     private double distanceFromVp;
-
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
 
@@ -37,27 +31,34 @@ public class Camera {
 
     /**
      * Getter for the camera position
+     *
      * @return the position
      */
     public Point getPosition() {
         return this.position;
     }
+
     /**
      * Getter for the vector that point the same direction as camera
+     *
      * @return the vector
      */
     public Vector getvTo() {
         return this.vTo;
     }
+
     /**
      * Getter for the vector that point up from camera
+     *
      * @return the vector
      */
     public Vector getvUp() {
         return this.vUp;
     }
+
     /**
      * Getter for the vector that point right from camera
+     *
      * @return the vector
      */
     public Vector getvRight() {
@@ -66,87 +67,96 @@ public class Camera {
 
     /**
      * Getter for the VP height
+     *
      * @return the height
      */
-        public int getVpHeight() {
-            return this.vpHeight;
+    public int getVpHeight() {
+        return this.vpHeight;
+    }
+
+    /**
+     * Getter for the VP width
+     *
+     * @return the width
+     */
+    public int getVpWidth() {
+        return this.vpWidth;
+    }
+
+    /**
+     * Getter for the distance between camera and VP
+     *
+     * @return the distance
+     */
+    public double getDistanceFromVp() {
+        return this.distanceFromVp;
+    }
+
+    /**
+     * Constructor for camera
+     *
+     * @param to       the vector in camera direction
+     * @param up       the vector points up from camera
+     * @param position position of camera
+     */
+    public Camera(Point position, Vector to, Vector up) {
+        if (to.dotProduct(up) != 0) {
+            throw new IllegalArgumentException();
         }
+        this.position = position;
+        this.vRight = to.crossProduct(up).normalize();
+        this.vTo = to.normalize();
+        this.vUp = up.normalize();
+    }
 
-        /**
-         * Getter for the VP width
-         *
-         * @return the width
-         */
+    /**
+     * Setter for VP width and height
+     *
+     * @param width  the width
+     * @param height the height
+     * @return This object
+     */
+    public Camera setVPSize(int height, int width) {
+        this.vpHeight = height;
+        this.vpWidth = width;
+        return this;
+    }
 
-            public int getVpWidth() {
-                return this.vpWidth;
-            }
+    /**
+     * Setter for distance between camera and VP
+     *
+     * @param distance the distance
+     * @return This object
+     */
+    public Camera setVPDistance(double distance) {
+        this.distanceFromVp = distance;
+        return this;
+    }
 
-            /**
-             * Getter for the distance between camera and VP
-             *
-             * @return the distance
-             */
-            public double getDistanceFromVp() {
-                return this.distanceFromVp;
-            }
-            /**
-             * Constructor for camera
-             *
-             * @param to the vector in camera direction
-             * @param up the vector points up from camera
-             * @param position position of camera
-             */
-    public Camera(Point position, Vector to, Vector up){
-                if (to.dotProduct(up) != 0){
-                    throw new IllegalArgumentException();
-                }
-                this.position = position;
-                this.vRight = to.crossProduct(up).normalize();
-                this.vTo = to.normalize();
-                this.vUp = up.normalize();
-            }
-            /**
-             * Setter for VP width and height
-             * @param width the width
-             * @param height the height
-             * @return This object
-             */
+    /**
+     * Constructs ray through pixel on VP
+     *
+     * @param nX number of columns in VP (horizontal)
+     * @param nY number of rows in VP (vertical)
+     * @param j  column number of pixel (horizontal)
+     * @param i  row number of pixel (vertical)
+     * @return the ray
+     */
+    public Ray constructRay(int nX, int nY, int j, int i) {
+        Point pIJ = this.position.add(this.vTo.scale(this.distanceFromVp));
+        double xJ = (j - ((nX - 1) / 2d)) * ((double) this.vpWidth / nX);
+        double yI = (((nY - 1) / 2d) - i) * ((double) this.vpHeight / nY);
+        if (xJ != 0) pIJ = pIJ.add(vRight.scale(xJ));
+        if (yI != 0) pIJ = pIJ.add(vUp.scale(yI));
+        return new Ray(this.position, pIJ.subtract(this.position));
+    }
 
-                public Camera setVPSize(int height, int width){
-                    this.vpHeight = height;
-                    this.vpWidth = width;
-                    return this;
-                }
-                /**
-                 * Setter for distance between camera and VP
-                 *
-                 * @param distance the distance
-                 * @return This object
-                 */
-                public Camera setVPDistance(double distance) {
-                    this.distanceFromVp = distance;
-                    return this;
-                }
-                /**
-                 * @param nX number of columns in VP (horizontal)
-                 * @param nY number of rows in VP (vertical)
-                 * @param j  column number of pixel (horizontal)
-                 * @param i  row number of pixel (vertical)
-                 * @return the ray
-                 */
-                public Ray constructRay(int nX, int nY, int j, int i){
-                    Point pIJ = this.position.add(this.vTo.scale(this.distanceFromVp));
-                    double xJ = (j - ((nX - 1) / 2d)) * ((double) this.vpWidth / nX);
-                    double yI = (((nY - 1) / 2d) - i) * ((double) this.vpHeight / nY);
-                    if (!Util.isZero(xJ)) pIJ = pIJ.add(vRight.scale(xJ)); //using util
-                    if (!Util.isZero(yI)) pIJ = pIJ.add(vUp.scale(yI));
-                    return new Ray(this.position, pIJ.subtract(this.position));
-                }
+
     /**
      * Renders the image
+     * @return the camera
      */
-    public void renderImage() {
+    public Camera renderImage() {
         if (this.vpHeight <= 0 || this.vpWidth <= 0 || !(this.distanceFromVp > 0) || this.imageWriter == null || this.rayTracer == null) {
             throw new MissingResourceException("missing resource", "Camera", "");
         }
@@ -157,6 +167,7 @@ public class Camera {
                 this.imageWriter.writePixel(i, j, this.rayTracer.traceRay(this.constructRay(xPixels, yPixels, i, j)));
             }
         }
+        return this;
     }
 
     /**
@@ -181,5 +192,6 @@ public class Camera {
         if (this.imageWriter == null) throw new MissingResourceException("missing imageWriter", "Camera", "");
         this.imageWriter.writeToImage();
     }
+
 
 }

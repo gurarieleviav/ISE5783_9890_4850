@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Vector;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static primitives.Util.isZero;
 
 /**
  * Unit tests for primitives.Point class
  *
  * @author Gur Arie Leviav
- * @author Asaf basali
+ * @author Asaf Basali
  */
-public class PointTest {
+class PointTest {
 
     /**
      * Test method for {@link primitives.Point#subtract(primitives.Point)}
@@ -65,8 +65,6 @@ public class PointTest {
                 "VB01: Point distance squared for distance equals 0 doesn't work");
     }
 
-
-    // sqrt((x-x)^2 + (y-y)^2 + (z-z)^2)
     /**
      * Test method for {@link primitives.Point#distance(primitives.Point)}
      */
