@@ -154,20 +154,32 @@ public class Camera {
 
     /**
      * Renders the image
+     *
      * @return the camera
      */
     public Camera renderImage() {
-        if (this.vpHeight <= 0 || this.vpWidth <= 0 || !(this.distanceFromVp > 0) || this.imageWriter == null || this.rayTracer == null) {
+        if (this.vpHeight <= 0
+                || this.vpWidth <= 0
+                || !(this.distanceFromVp > 0)
+                || this.imageWriter == null
+                || this.rayTracer == null) {
             throw new MissingResourceException("missing resource", "Camera", "");
         }
-        int yPixels = this.imageWriter.getNy();
-        int xPixels = this.imageWriter.getNx();
-        for (int i = 0; i < xPixels; i++) {
-            for (int j = 0; j < yPixels; j++) {
-                this.imageWriter.writePixel(i, j, this.rayTracer.traceRay(this.constructRay(xPixels, yPixels, i, j)));
+        int nY = this.imageWriter.getNy();
+        int nX = this.imageWriter.getNx();
+        for (int i = 0; i < nX; i++) {
+            for (int j = 0; j < nY; j++) {
+                Color color = castRay(nX, nY, i, j);
+                this.imageWriter.writePixel(i, j, color);
             }
         }
         return this;
+    }
+
+    private Color castRay(int nX, int nY, int i, int j) {
+        Ray ray = this.constructRay(nX, nY, i, j);
+        Color color = rayTracer.traceRay(ray);
+        return color;
     }
 
     /**
@@ -177,10 +189,13 @@ public class Camera {
      * @param color    the color
      */
     public void printGrid(int interval, Color color) {
-        if (this.imageWriter == null) throw new MissingResourceException("missing imageWriter", "Camera", "");
+        if (this.imageWriter == null)
+            throw new MissingResourceException("missing imageWriter", "Camera", "");
         for (int i = 0; i < this.imageWriter.getNx(); i++) {
             for (int j = 0; j < this.imageWriter.getNx(); j++) {
-                if(i%interval == 0 || j%interval == 0) this.imageWriter.writePixel(i, j, color);
+                if (i % interval == 0 || j % interval == 0) {
+                    this.imageWriter.writePixel(i, j, color);
+                }
             }
         }
     }
@@ -189,7 +204,8 @@ public class Camera {
      * Writes the image to the storage device
      */
     public void writeToImage() {
-        if (this.imageWriter == null) throw new MissingResourceException("missing imageWriter", "Camera", "");
+        if (this.imageWriter == null)
+            throw new MissingResourceException("missing imageWriter", "Camera", "");
         this.imageWriter.writeToImage();
     }
 

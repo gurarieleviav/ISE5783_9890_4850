@@ -35,7 +35,7 @@ public class Geometries extends Intersectable{
         }
     }
 
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         List<GeoPoint> intersections = null;
         for (Intersectable geometry:
                 this.geometries) {

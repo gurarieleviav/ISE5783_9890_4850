@@ -56,7 +56,7 @@ public class Sphere extends Geometry {
     }
 
 
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         Vector u;
         try {
             u = this.center.subtract(ray.getStart());

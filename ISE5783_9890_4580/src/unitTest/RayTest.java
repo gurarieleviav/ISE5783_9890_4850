@@ -44,12 +44,12 @@ class RayTest {
                 "EP01: not working");
 
         // EP02: t is smaller than 0
-        assertThrows(IllegalArgumentException.class, () -> ray.getPoint(-4),
+        assertThrows(IllegalArgumentException.class, () -> ray.getPoint(0),
                 "EP02: not working");
 
         // ================ Boundary Values Tests ===================
         // BV01: t is 0
-        assertEquals(new Point(1,0,0), ray.getPoint(0),
+        assertEquals(new Point(-3,0,0), ray.getPoint(-4),
                 "BV01: not working");
     }
 

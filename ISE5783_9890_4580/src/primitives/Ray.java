@@ -54,13 +54,7 @@ public class Ray {
      * @return start + direction * t
      */
     public Point getPoint(double t) {
-        if (t < 0) {
-            throw new IllegalArgumentException();
-        }
-        if (t > 0) {
             return this.start.add(this.direction.scale(t));
-        }
-        return this.start;
     }
 
     /**

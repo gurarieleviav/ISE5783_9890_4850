@@ -90,5 +90,5 @@ public class Polygon extends Geometry {
    }
 
    @Override
-   public List<GeoPoint> findGeoIntersectionsHelper(Ray ray){return null;}
+   protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){return null;}
 }
