@@ -1,4 +1,4 @@
-package unittests.renderer;
+package unitTest.renderertest;
 
 import static java.awt.Color.*;
 
