@@ -71,7 +71,7 @@ public class Vector extends Point {
      */
     public Vector crossProduct(Vector other) {
         return new Vector(this.xyz.d2 * other.xyz.d3 - this.xyz.d3 * other.xyz.d2,
-                this.xyz.d3 * other.xyz.d1 -this.xyz.d1 * other.xyz.d3,
+                this.xyz.d3 * other.xyz.d1 - this.xyz.d1 * other.xyz.d3,
                 this.xyz.d1 * other.xyz.d2 - this.xyz.d2 * other.xyz.d1);
     }
 
@@ -109,12 +109,8 @@ public class Vector extends Point {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof Vector))
-            return false;
+        if (this == obj) return true;
+        if (!(obj instanceof Vector)) return false;
         return super.equals(obj);
     }
 

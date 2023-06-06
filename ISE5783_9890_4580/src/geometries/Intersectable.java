@@ -13,6 +13,7 @@ public abstract class Intersectable {
     /**
      * Finds intersections between the ray
      * and the geometry
+     *
      * @param ray The ray to intersect with the geometry
      * @return List of intersection points
      */
@@ -26,13 +27,20 @@ public abstract class Intersectable {
      * The class represents point on the geometry
      */
     public static class GeoPoint {
+        /**
+         * The geometry that the point is on
+         */
         public Geometry geometry;
+        /**
+         * A point on the geometry
+         */
         public Point point;
 
         /**
          * constructor for GeoPoint
+         *
          * @param geometry a geometry
-         * @param point a point
+         * @param point    a point
          */
         public GeoPoint(Geometry geometry, Point point) {
             this.geometry = geometry;
@@ -42,10 +50,8 @@ public abstract class Intersectable {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            GeoPoint geoPoint = (GeoPoint) o;
-            if(this.geometry == null || geoPoint.geometry == null) return this.point.equals(geoPoint.point);
-            return this.geometry.equals(geoPoint.geometry) && this.point.equals(geoPoint.point);
+            if (!(o instanceof GeoPoint geoPoint)) return false;
+            return this.geometry == geoPoint.geometry && this.point.equals(geoPoint.point);
         }
 
         @Override
@@ -57,12 +63,30 @@ public abstract class Intersectable {
         }
 
     }
-    public List<GeoPoint> findGeoIntersections(Ray ray){
-        return findGeoIntersectionsHelper(ray);
+
+    /**
+     * Finds intersection points of ray with the geometry
+     * @param ray the ray to intersect with
+     * @return list of the geometry with the intersection point(s)
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersectionsHelper(ray,Double.POSITIVE_INFINITY);
     }
 
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        return null;
+    /**
+     * Finds intersection points of ray with the geometry
+     * @param ray the ray to intersect with
+     * @param maxDistance the maximum distance of point(s) from light
+     * @return list of the geometry with the intersection point(s)
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
     }
 
+    /**
+     * A helper function to {@link geometries.Intersectable#findGeoIntersections(Ray)}
+     * @param ray the ray to intersect with
+     * @return list of the geometry with the intersection point(s)
+     */
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 }

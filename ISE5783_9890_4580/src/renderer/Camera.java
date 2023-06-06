@@ -18,12 +18,23 @@ public class Camera {
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
 
-
+    /**
+     * Setter for imageWriter
+     *
+     * @param imageWriter the imageWriter object
+     * @return this camera object
+     */
     public Camera setImageWriter(ImageWriter imageWriter) {
         this.imageWriter = imageWriter;
         return this;
     }
 
+    /**
+     * Setter for rayTracer
+     *
+     * @param rayTracer the rayTracer object
+     * @return this camera object
+     */
     public Camera setRayTracer(RayTracerBase rayTracer) {
         this.rayTracer = rayTracer;
         return this;
@@ -104,9 +115,10 @@ public class Camera {
             throw new IllegalArgumentException();
         }
         this.position = position;
-        this.vRight = to.crossProduct(up).normalize();
         this.vTo = to.normalize();
         this.vUp = up.normalize();
+        // Cross product of 2 orthogonal unit vectors is always a unit vector
+        this.vRight = this.vTo.crossProduct(this.vUp);
     }
 
     /**
@@ -154,10 +166,11 @@ public class Camera {
 
     /**
      * Renders the image
+     *
      * @return the camera
      */
     public Camera renderImage() {
-        if (this.vpHeight <= 0 || this.vpWidth <= 0 || !(this.distanceFromVp > 0) || this.imageWriter == null || this.rayTracer == null) {
+        if (this.vpHeight <= 0 || this.vpWidth <= 0 || this.distanceFromVp <= 0 || this.imageWriter == null || this.rayTracer == null) {
             throw new MissingResourceException("missing resource", "Camera", "");
         }
         int yPixels = this.imageWriter.getNy();
@@ -178,9 +191,11 @@ public class Camera {
      */
     public void printGrid(int interval, Color color) {
         if (this.imageWriter == null) throw new MissingResourceException("missing imageWriter", "Camera", "");
-        for (int i = 0; i < this.imageWriter.getNx(); i++) {
-            for (int j = 0; j < this.imageWriter.getNx(); j++) {
-                if(i%interval == 0 || j%interval == 0) this.imageWriter.writePixel(i, j, color);
+        int yPixels = this.imageWriter.getNy();
+        int xPixels = this.imageWriter.getNx();
+        for (int i = 0; i < xPixels; i++) {
+            for (int j = 0; j < yPixels; j++) {
+                if (i % interval == 0 || j % interval == 0) this.imageWriter.writePixel(i, j, color);
             }
         }
     }
@@ -192,6 +207,5 @@ public class Camera {
         if (this.imageWriter == null) throw new MissingResourceException("missing imageWriter", "Camera", "");
         this.imageWriter.writeToImage();
     }
-
 
 }
