@@ -55,13 +55,13 @@ public class Sphere extends Geometry {
         return "Sphere{" + center + ", " + radius + '}';
     }
 
-
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         Vector u;
         try {
             u = this.center.subtract(ray.getStart());
         } catch (IllegalArgumentException ignore) {
-            return List.of(new GeoPoint(this, ray.getPoint(this.radius)));
+            return List.of(getGeoPoint(ray, radius));
         }
 
         double tm = ray.getDirection().dotProduct(u);
@@ -69,11 +69,28 @@ public class Sphere extends Geometry {
         double th2 = alignZero(this.radius2 - d2);
         if (th2 <= 0) return null;
 
+        List<GeoPoint> intersections = new LinkedList<>();
+
         double th = Math.sqrt(th2);
-        double t2 = alignZero(tm + th);
-        if (t2 <= 0) return null;
 
         double t1 = alignZero(tm - th);
-        return t1 <= 0 ? List.of(new GeoPoint (this,ray.getPoint(t2))) : List.of(new GeoPoint(this ,ray.getPoint(t1)),new GeoPoint(this, ray.getPoint(t2)));
+        if (alignZero(t1 - maxDistance) <= 0 && t1 > 0) intersections.add(getGeoPoint(ray,t1));
+
+        double t2 = alignZero(tm + th);
+        if (alignZero(t2 - maxDistance) <= 0 && t2 > 0) intersections.add(getGeoPoint(ray,t2));
+
+
+        return intersections.isEmpty() ? null : intersections;
+    }
+
+    /**
+     * Helper function to calculate a point on a ray on the sphere
+     *
+     * @param ray intersects the sphere
+     * @param t   distance from the ray start point to a point
+     * @return sphere with the point
+     */
+    private GeoPoint getGeoPoint(Ray ray, double t) {
+        return new GeoPoint(this, ray.getPoint(t));
     }
 }

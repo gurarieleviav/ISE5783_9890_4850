@@ -1,5 +1,3 @@
-/** @author Gur Arie Leviav
- *  @author Asaf Basali*/
 package geometries;
 
 import primitives.*;
@@ -54,5 +52,5 @@ public class Cylinder extends Tube {
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){return null;}
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance){return null;}
 }

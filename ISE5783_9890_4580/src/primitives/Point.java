@@ -4,6 +4,7 @@ public class Point {
     final protected Double3 xyz;
 
     public static final Point ZERO = new Point(0, 0, 0);
+
     /**
      * Constructor to initialize Point based object with its three number values
      *
@@ -76,9 +77,7 @@ public class Point {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null) return false;
-        if (!(obj instanceof Point)) return false;
-        Point other = (Point) obj;
+        if (!(obj instanceof Point other)) return false;
         return this.xyz.equals(other.xyz);
     }
 

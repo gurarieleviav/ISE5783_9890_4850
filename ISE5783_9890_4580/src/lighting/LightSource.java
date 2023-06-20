@@ -11,6 +11,7 @@ public interface LightSource {
 
     /**
      * returns the intensity of the light source at the given point
+     *
      * @param p the point
      * @return the intensity
      */
@@ -18,8 +19,16 @@ public interface LightSource {
 
     /**
      * returns the direction of the light source to the given point
+     *
      * @param p the point
      * @return the direction
      */
     public Vector getL(Point p);
+
+    /**
+     * Finds the distance between the point and the light source
+     * @param point point on hte geometry
+     * @return the distance
+     */
+    double getDistance(Point point);
 }

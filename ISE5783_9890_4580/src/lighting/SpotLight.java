@@ -4,30 +4,16 @@ import primitives.*;
 
 import static primitives.Util.alignZero;
 
-public class SpotLight extends PointLight{
-    private Vector direction;
+public class SpotLight extends PointLight {
+    private final Vector direction;
+    private int beam = 1;
 
     /**
      * constructor for point light
      *
-     * @param intensity the light intensity
+     * @param spCL     the light color
      * @param position position of light
-     * @param kC constant attenuation with distance
-     * @param kL linear attenuation with distance
-     * @param kQ quadratic attenuation with distance
-     * @param direction the light direction
-     */
-    public SpotLight(Color intensity, Point position, double kC, double kL, double kQ, Vector direction) {
-        super(intensity, position, kC, kL, kQ);
-        this.direction = direction.normalize();
-    }
-
-    /**
-     * constructor for point light
-     *
-     * @param spCL the light color
-     * @param position position of light
-     * @param dir the light direction
+     * @param dir      the light direction
      */
     public SpotLight(Color spCL, Point position, Vector dir) {
         super(spCL, position);
@@ -36,8 +22,9 @@ public class SpotLight extends PointLight{
 
     @Override
     public Color getIntensity(Point p) {
-        double v = alignZero(this.direction.dotProduct(this.getL(p)));
-        return v > 0 ? super.getIntensity(p).scale(v) : new Color(0,0,0);
+        double v = this.direction.dotProduct(this.getL(p));
+        if (alignZero(v) <= 0) return Color.BLACK;
+        return super.getIntensity(p).scale(this.beam == 1 ? v : Math.pow(v, this.beam));
     }
 
     @Override
@@ -45,7 +32,14 @@ public class SpotLight extends PointLight{
         return p.subtract(this.position).normalize();
     }
 
+    /**
+     * Setter for a narrower beam (used for flashlights)
+     * @param i the narrowness of the beam
+     * @return this spotlight object
+     */
     public PointLight setNarrowBeam(int i) {
+        // I is to compute (cos(angle))^i to get narrower beam
+        this.beam = i;
         return this;
     }
 }

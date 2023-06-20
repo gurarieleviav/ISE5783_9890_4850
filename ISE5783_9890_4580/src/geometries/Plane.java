@@ -70,8 +70,7 @@ public class Plane extends Geometry {
     }
 
     @Override
-
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 
         double denominator = this.normal.dotProduct(ray.getDirection());
         if (isZero(denominator))
@@ -85,7 +84,8 @@ public class Plane extends Geometry {
         }
 
         double t = alignZero(this.normal.dotProduct(u) / denominator);
-        return t <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
+        return (alignZero(t - maxDistance) <= 0 && t > 0) ? List.of(new GeoPoint(this, ray.getPoint(t))) : null;
     }
 
 }
+

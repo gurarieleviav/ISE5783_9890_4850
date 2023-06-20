@@ -1,10 +1,19 @@
 package primitives;
+
 import geometries.Intersectable.GeoPoint;
+
 import java.util.List;
+
+import static primitives.Util.isZero;
 
 public class Ray {
     private final Vector direction;
     private final Point start;
+
+    /**
+     * Constant to move the point by a small distance
+     */
+    private static final double DELTA = 0.1;
 
     /**
      * Constructor to create a Ray from a Point to direction of dir
@@ -17,15 +26,22 @@ public class Ray {
         this.direction = dir.normalize();
     }
 
+    /**
+     * Constructs a ray, the head is moved by DELTA
+     *
+     * @param head      The head of the ray
+     * @param direction The direction of the ray
+     * @param normal    The normal to the geometry, on this vector's line the point will move
+     */
+    public Ray(Point head, Vector direction, Vector normal) {
+        this.start = head.add(normal.scale(normal.dotProduct(direction) > 0 ? this.DELTA : -this.DELTA));
+        this.direction = direction.normalize();
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof Ray))
-            return false;
-        Ray other = (Ray) obj;
+        if (this == obj) return true;
+        if (!(obj instanceof Ray other)) return false;
         return this.direction.equals(other.direction) && this.start.equals(other.start);
     }
 
@@ -48,17 +64,18 @@ public class Ray {
     }
 
     /**
-     * Calculates the starting point plus t steps in the direction of the ray
+     * Calculates a point on the line of the ray at a given distance from the starting point
      *
-     * @param t distance from starting point
-     * @return start + direction * t
+     * @param t the distance from the starting point
+     * @return the point on the line of the ray
      */
     public Point getPoint(double t) {
-            return this.start.add(this.direction.scale(t));
+        return isZero(t) ? this.start : this.start.add(this.direction.scale(t));
     }
 
     /**
      * finds the closest point to the start of the ray
+     *
      * @param points the points
      * @return the closest point
      */
@@ -67,20 +84,23 @@ public class Ray {
                 : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
     }
 
-    public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPoints){
-        int index = -1;
+    /**
+     * Finds the closest point to the start of the ray
+     *
+     * @param geoPoints list of geometries and points on them, correspondingly
+     * @return the closest geometry and a point on the geometry
+     */
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPoints) {
+        GeoPoint point = null;
         double distance = Double.POSITIVE_INFINITY;
-        for (GeoPoint geoPoint:
-             geoPoints) {
-            if(geoPoint.point.subtract(this.start).dotProduct(this.direction) > 0){
-                double d = this.start.distance(geoPoint.point);
-                if (d < distance) {
-                    distance = d;
-                    index = geoPoints.indexOf(geoPoint);
-                }
+        for (GeoPoint geoPoint : geoPoints) {
+            double d = this.start.distance(geoPoint.point);
+            if (d < distance) {
+                distance = d;
+                point = geoPoint;
             }
         }
-        return geoPoints.get(index);
+        return point;
     }
 
     @Override

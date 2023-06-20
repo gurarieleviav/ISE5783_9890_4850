@@ -3,11 +3,6 @@ package lighting;
 import primitives.*;
 
 /**
- * @aouther Gur Arie Leviav
- * @aouther Asaf Basali
- */
-
-/**
  * AmbientLight class represents ambient light in the image
  */
 public class AmbientLight extends Light {
@@ -27,7 +22,7 @@ public class AmbientLight extends Light {
      * sets the background color as black
      */
     public AmbientLight() {
-         super(Color.BLACK);
+        super(Color.BLACK);
     }
 
     /**
