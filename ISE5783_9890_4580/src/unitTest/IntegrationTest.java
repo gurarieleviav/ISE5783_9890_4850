@@ -32,7 +32,7 @@ public class IntegrationTest {
         List<Point> temp;
         for (int i = 0; i < VPheight; i++) {
             for (int j = 0; j < VPwidth; j++) {
-                temp = geometry.findIntersections(camera.constructRay(this.nx, this.ny, j, i));
+                temp = geometry.findIntersections((Ray) camera.constructRay(this.nx, this.ny, j, i));
                 if (temp != null) countIntersections += temp.size();
             }
         }

@@ -1,3 +1,5 @@
+package unitTest.renderertest;
+
 import geometries.*;
 import lighting.DirectionalLight;
 import lighting.SpotLight;
